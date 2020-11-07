@@ -22,8 +22,8 @@ int main () {
     cout << "Welcome to Connect Four!" << endl;
     
     // Setup board
-    int height = 4;
-    int width = 4;
+    int height = 6;
+    int width = 7;
     
     SlotState **board;
     board = new SlotState*[height];
@@ -33,8 +33,12 @@ int main () {
     for (int i = 0; i < height; i++)
         for (int j = 0; j < width; j++)
             board[i][j] = BLANK;
-    
+        
     // Display board
+    for (int j = 0; j < width; j++)
+        cout << j + 1 << " ";
+    cout << endl;
+    
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
             SlotState state = board[i][j];
@@ -47,6 +51,38 @@ int main () {
             }
         }
         cout << endl;
+    }
+    cout << endl;
+    
+    // Player input
+    SlotState current_player = PLAYER_1;
+    bool state_changed = false;
+    
+    int column;
+    cin >> column;
+    
+    for (int i = height - 1; i >= 0; i--) {
+        while (!state_changed) {
+            SlotState state = board[i][column];
+            switch (state)
+            {
+            case BLANK:
+                    if (current_player == PLAYER_1) {
+                        board[i][column] = PLAYER_1;
+                        state_changed = true;
+                        current_player = PLAYER_2;
+                    }
+                    else {
+                        board[i][column] = PLAYER_2;
+                        state_changed = true;
+                        current_player = PLAYER_1;
+                    }
+                    break;
+            case PLAYER_1:  break;
+            case PLAYER_2:  break;
+            default:        break;
+            }
+        }
     }
     
     // Deallocate memory
