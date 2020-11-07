@@ -49,5 +49,10 @@ int main () {
         cout << endl;
     }
     
+    // Deallocate memory
+    for (int i = 0; i < height; i++)
+        delete board[i];
+    delete board;
+    
     return 0;
 }
