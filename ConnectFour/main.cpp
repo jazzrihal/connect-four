@@ -87,7 +87,7 @@ int GetInput(int &width) {
     int out = 1;
     
     cin >> user_in;
-    if (user_in >= 0 && user_in < width) {
+    if (user_in >= 0 && user_in < width + 1) {
         out = user_in;
     }
     
