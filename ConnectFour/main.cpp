@@ -16,7 +16,7 @@ enum SlotState {
 
 void SetupBoard(int &height, int &width, SlotState **&board);
 void DrawBoard(int &height, int &width, SlotState **&board);
-int GetInput(int &width);
+void GetInput(int &width, int &selected);
 void PlaceToken(int &height,
                 int &width,
                 SlotState **&board,
@@ -37,14 +37,14 @@ int main () {
     int player_selected;
     
     DrawBoard(height, width, board);
-    player_selected = GetInput(width);
+    GetInput(width, player_selected);
     
     // Game loop
     while (player_selected) {
         PlaceToken(height, width, board, current_player, player_selected);
         SwitchPlayer(current_player);
         DrawBoard(height, width, board);
-        player_selected = GetInput(width);
+        GetInput(width, player_selected);
     }
 
     QuitGame(height, board);
@@ -82,16 +82,15 @@ void DrawBoard(int &height, int &width, SlotState **&board) {
     cout << endl;
 }
 
-int GetInput(int &width) {
+void GetInput(int &width, int &selected) {
     int user_in;
-    int out = 1;
-    
     cin >> user_in;
-    if (user_in >= 0 && user_in < width + 1) {
-        out = user_in;
-    }
     
-    return out;
+    if (user_in >= 0 && user_in <= width) {
+        selected = user_in;
+    } else {
+        cout << "Enter number between 1 and " << width << endl;
+    }
 }
 
 void PlaceToken(int &height,
