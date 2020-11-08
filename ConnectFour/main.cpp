@@ -16,7 +16,12 @@ enum SlotState {
 
 void SetupBoard(int &height, int &width, SlotState **&board);
 void DrawBoard(int &height, int &width, SlotState **&board);
-void PlaceToken(int &height, int &width, SlotState **&board, SlotState &current_player);
+int GetInput(int &width);
+void PlaceToken(int &height,
+                int &width,
+                SlotState **&board,
+                SlotState &current_player,
+                int column);
 void SwitchPlayer(SlotState &current_player);
 void QuitGame(int & height, SlotState **&board);
 
@@ -29,11 +34,19 @@ int main () {
     SlotState **board;
     SetupBoard(height, width, board);
     SlotState current_player = PLAYER_1;
+    int player_selected;
+    
+    DrawBoard(height, width, board);
+    player_selected = GetInput(width);
     
     // Game loop
-    DrawBoard(height, width, board);
-    PlaceToken(height, width, board, current_player);
-    
+    while (player_selected) {
+        PlaceToken(height, width, board, current_player, player_selected);
+        SwitchPlayer(current_player);
+        DrawBoard(height, width, board);
+        player_selected = GetInput(width);
+    }
+
     QuitGame(height, board);
     return 0;
 }
@@ -46,7 +59,6 @@ void SetupBoard(int &height, int &width, SlotState **&board) {
     for (int i = 0; i < height; i++)
         for (int j = 0; j < width; j++)
             board[i][j] = BLANK;
-    
 }
 
 void DrawBoard(int &height, int &width, SlotState **&board) {
@@ -70,31 +82,35 @@ void DrawBoard(int &height, int &width, SlotState **&board) {
     cout << endl;
 }
 
-void PlaceToken(int &height, int &width, SlotState **&board, SlotState &current_player) {
-    int column;
-    cin >> column;
-    bool state_changed = false;
+int GetInput(int &width) {
+    int user_in;
+    int out = 1;
+    
+    cin >> user_in;
+    if (user_in >= 0 && user_in < width) {
+        out = user_in;
+    }
+    
+    return out;
+}
+
+void PlaceToken(int &height,
+                int &width,
+                SlotState **&board,
+                SlotState &current_player,
+                int column) {
+    
+    column--;
     
     for (int i = height - 1; i >= 0; i--) {
-        while (!state_changed) {
-            SlotState state = board[i][column - 1];
-            switch (state)
-            {
-            case BLANK:
-                    if (current_player == PLAYER_1) {
-                        board[i][column] = PLAYER_1;
-                        state_changed = true;
-                        SwitchPlayer(current_player);
-                    }
-                    else {
-                        board[i][column] = PLAYER_2;
-                        state_changed = true;
-                        SwitchPlayer(current_player);
-                    }
-                    break;
-            case PLAYER_1:  break;
-            case PLAYER_2:  break;
-            default:        break;
+        SlotState current_state = board[i][column];
+        if (current_state == BLANK) {
+            if (current_player == PLAYER_1) {
+                board[i][column] = PLAYER_1;
+                break;
+            } else {
+                board[i][column] = PLAYER_2;
+                break;
             }
         }
     }
