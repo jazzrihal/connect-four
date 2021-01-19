@@ -16,7 +16,7 @@ enum SlotState {
 
 class Game {
 public:
-    virtual void Play() { cout << "Game::Play called\n"; };
+    virtual void Play() {};
 };
 
 class ConnectFour : public Game {
@@ -125,9 +125,9 @@ private:
 
 int main() {
     cout << "Welcome to Connect Four!" << endl;
-    Game *ConFour = new ConnectFour();
-    ConFour->Play();
-    delete ConFour;
+    Game *Game = new ConnectFour();
+    Game->Play();
+    delete Game;
     
     return 0;
 }
