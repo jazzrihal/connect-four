@@ -16,7 +16,9 @@ enum SlotState {
 
 class Game {
 public:
-    virtual void Play() {};
+    Game() {};
+    virtual ~Game() {};
+    virtual void Play() = 0;
 };
 
 class ConnectFour : public Game {
@@ -62,7 +64,9 @@ public:
 private:
     void Draw() {
         // Print column header
-        cout << "0 - Quit | 1 - " << height << " to drop token in row\n";
+        cout << "| 0 Quit | 1-" << height << " Drop Token |" << endl;
+        cout << "Player " << current_player << "'s turn!" << endl << endl;
+        
         for (int j = 0; j < width; j++)
             cout << j + 1 << " ";
         cout << endl;
