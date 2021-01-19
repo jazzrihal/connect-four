@@ -15,8 +15,8 @@ enum SlotState {
 };
 
 class Game {
-    virtual void Draw() = 0;
-    virtual void Input() = 0;
+public:
+    virtual void Play() { cout << "Game::Play called\n"; };
 };
 
 class ConnectFour : public Game {
@@ -27,9 +27,9 @@ class ConnectFour : public Game {
     
 public:
     ConnectFour() {
-        // Implement user-defined board size here
-        height = 6;
-        width = 7;
+        cout << "Enter board height then width: " << endl;
+        cin >> height;
+        cin >> width;
         
         // Allocate memory
         board = new SlotState*[height];
@@ -52,8 +52,17 @@ public:
         delete [] board;
     }
     
-    void Draw() override {
+    void Play() override {
+        while (user_in) {
+            Draw();
+            Input();
+        }
+    }
+    
+private:
+    void Draw() {
         // Print column header
+        cout << "0 - Quit | 1 - " << height << " to drop token in row\n";
         for (int j = 0; j < width; j++)
             cout << j + 1 << " ";
         cout << endl;
@@ -75,8 +84,9 @@ public:
         cout << endl;
     }
 
-    void Input() override {
+    void Input() {
         cin >> user_in;
+        cout << endl;
         
         if (user_in >= 0 && user_in <= width) {
             PlaceToken(user_in);
@@ -85,11 +95,6 @@ public:
         }
     }
     
-    int GetUserIn() {
-        return user_in;
-    }
-    
-private:
     void PlaceToken(int column) {
         column--; // Offset input by 1 to align with desired column
         
@@ -106,7 +111,6 @@ private:
                 }
             }
         }
-        
         SwitchPlayer();
     }
     
@@ -121,12 +125,9 @@ private:
 
 int main() {
     cout << "Welcome to Connect Four!" << endl;
-    ConnectFour ConFour = ConnectFour();
-    
-    do {
-        ConFour.Draw();
-        ConFour.Input();
-    } while (ConFour.GetUserIn());
+    Game *ConFour = new ConnectFour();
+    ConFour->Play();
+    delete ConFour;
     
     return 0;
 }
