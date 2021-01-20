@@ -57,8 +57,7 @@ public:
     void Play() override {
         while (user_in) {
             Draw();
-            if (user_in) // Ugly workaround to quit after winner announced!
-                Input();
+            Input();
         }
     }
     
@@ -95,6 +94,9 @@ private:
     }
 
     void Input() {
+        if (user_in == 0)
+            return;
+        
         cout << "Player " << current_player << "'s turn!" << endl;
 
         cin >> user_in;
