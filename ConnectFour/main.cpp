@@ -57,15 +57,19 @@ public:
     void Play() override {
         while (user_in) {
             Draw();
-            Input();
+            if (user_in) // Ugly workaround to quit after winner announced!
+                Input();
         }
     }
     
 private:
+    void Quit() {
+        user_in = 0;
+    }
+    
     void Draw() {
         // Print column header
-        cout << "| 0 Quit | 1-" << height << " Drop Token |" << endl;
-        cout << "Player " << current_player << "'s turn!" << endl << endl;
+        cout << "0 Quit | 1-" << height << " Drop Token" << endl;
         
         for (int j = 0; j < width; j++)
             cout << j + 1 << " ";
@@ -77,18 +81,22 @@ private:
                 SlotState state = board[i][j];
                 switch (state)
                 {
-                case BLANK:     cout << "_ ";   break;
-                case PLAYER_1:  cout << "+ ";   break;
-                case PLAYER_2:  cout << "x ";   break;
-                default:        cout << "E";    break;
+                    case    BLANK:      cout << "_ ";   break;
+                    case    PLAYER_1:   cout << "+ ";   break;
+                    case    PLAYER_2:   cout << "x ";   break;
+                    default:            cout << "E";    break;
                 }
             }
             cout << endl;
         }
         cout << endl;
+        
+        DetectWin();
     }
 
     void Input() {
+        cout << "Player " << current_player << "'s turn!" << endl;
+
         cin >> user_in;
         cout << endl;
         
@@ -123,6 +131,37 @@ private:
             current_player = PLAYER_2;
         } else {
             current_player = PLAYER_1;
+        }
+    }
+    
+    void DetectWin() {
+        string verifyPlayer1 = "++++";
+        string verifyPlayer2 = "xxxx";
+        
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width - 3; j++) {
+                string fourTokens;
+
+                for (int k = 0; k < 4; k++) {
+                    // Build string from snapshot of 4 consecutive tokens
+                    SlotState slot = board[i][j + k];
+                    
+                    if (slot == PLAYER_1)
+                        fourTokens.append("+");
+                    else if (slot == PLAYER_2)
+                        fourTokens.append("x");
+                }
+                
+                // Compare snapshot with verification strings
+                if (fourTokens == verifyPlayer1) {
+                    cout << "Player 1 wins!\n";
+                    Quit();
+                }
+                else if (fourTokens == verifyPlayer2) {
+                    cout << "Player 2 wins!\n";
+                    Quit();
+                }
+            }
         }
     }
 };
