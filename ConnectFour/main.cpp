@@ -8,12 +8,6 @@
 #include <iostream>
 using namespace std;
 
-enum SlotState {
-    BLANK,
-    PLAYER_1,
-    PLAYER_2
-};
-
 class Game {
 public:
     Game() {};
@@ -22,6 +16,12 @@ public:
 };
 
 class ConnectFour : public Game {
+    enum SlotState {
+        BLANK,
+        PLAYER_1,
+        PLAYER_2
+    };
+    
     int height, width;
     SlotState **board;
     SlotState current_player;
