@@ -32,6 +32,7 @@ public:
         cout << "Enter board height then width: " << endl;
         cin >> height;
         cin >> width;
+        cout << endl;
         
         // Allocate memory
         board = new SlotState*[height];
@@ -55,6 +56,8 @@ public:
     }
     
     void Play() override {
+        cout << "0 Quit | 1-" << height << " Drop Token" << endl;
+
         while (user_in) {
             Draw();
             Input();
@@ -68,8 +71,6 @@ private:
     
     void Draw() {
         // Print column header
-        cout << "0 Quit | 1-" << height << " Drop Token" << endl;
-        
         for (int j = 0; j < width; j++)
             cout << j + 1 << " ";
         cout << endl;
@@ -111,7 +112,7 @@ private:
     void PlaceToken(int column) {
         column--; // Offset input by 1 to align with desired column
         
-        // Find first BLANK slot in column to place current player token
+        // Find first BLANK slot in column to place current player's token
         for (int i = height - 1; i >= 0; i--) {
             SlotState current_state = board[i][column];
             if (current_state == BLANK) {
@@ -175,7 +176,7 @@ private:
         }
     }
     
-    void VerifyConnectFour(string tokens) {
+    void VerifyConnectFour(const string tokens) {
         // Win keys for players
         const string verifyPlayer1 = "++++";
         const string verifyPlayer2 = "xxxx";
