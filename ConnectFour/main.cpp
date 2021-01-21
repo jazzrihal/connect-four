@@ -52,6 +52,7 @@ public:
         // Deallocate memory
         for (int i = 0; i < height; i++)
             delete [] board[i];
+        
         delete [] board;
     }
     
@@ -73,12 +74,16 @@ private:
         // Print column header
         for (int j = 0; j < width; j++)
             cout << j + 1 << " ";
+        
         cout << endl;
         
         // Print board in its current state
         for (int i = 0; i < height; i++) {
+            
             for (int j = 0; j < width; j++) {
+                
                 SlotState state = board[i][j];
+                
                 switch (state)
                 {
                     case    BLANK:      cout << "_ ";   break;
@@ -104,6 +109,7 @@ private:
         
         if (user_in >= 0 && user_in <= width) {
             PlaceToken(user_in);
+            
         } else {
             cout << "Enter number between 1 and " << width << endl;
         }
@@ -114,11 +120,15 @@ private:
         
         // Find first BLANK slot in column to place current player's token
         for (int i = height - 1; i >= 0; i--) {
+            
             SlotState current_state = board[i][column];
+            
             if (current_state == BLANK) {
+                
                 if (current_player == PLAYER_1) {
                     board[i][column] = PLAYER_1;
                     break;
+                    
                 } else {
                     board[i][column] = PLAYER_2;
                     break;
@@ -131,6 +141,7 @@ private:
     void SwitchPlayer() {
         if (current_player == PLAYER_1) {
             current_player = PLAYER_2;
+            
         } else {
             current_player = PLAYER_1;
         }
@@ -139,82 +150,102 @@ private:
     void DetectWin() {
         // Check for win horizontally
         for (int i = 0; i < height; i++) {
+            
             for (int j = 0; j < width - 3; j++) {
+                
                 // Build string from snapshot of 4 consecutive tokens
-                string fourTokens;
+                string lineOfTokens;
                 
                 for (int k = 0; k < 4; k++) {
-                    SlotState slot = board[i][j + k];
                     
-                    if (slot == PLAYER_1)
-                        fourTokens.append("+");
-                    else if (slot == PLAYER_2)
-                        fourTokens.append("x");
+                    SlotState slot = board[i][j + k];
+                    AppendTokenToString(slot, lineOfTokens);
                 }
-                
-                VerifyConnectFour(fourTokens); // Compare snapshot with verification strings
+                VerifyConnectFour(lineOfTokens); // Compare snapshot with verification strings
             }
         }
         
         // Check for win vertically
         for (int i = 0; i < width; i++) {
+            
             for (int j = 0; j < height - 3; j++) {
+                
                 // Build string from snapshot of 4 consecutive tokens
-                string fourTokens;
+                string lineOfTokens;
 
                 for (int k = 0; k < 4; k++) {
+                    
                     SlotState slot = board[j + k][i];
-
-                    if (slot == PLAYER_1)
-                        fourTokens.append("+");
-                    else if (slot == PLAYER_2)
-                        fourTokens.append("x");
+                    AppendTokenToString(slot, lineOfTokens);
                 }
-
-                VerifyConnectFour(fourTokens);
+                VerifyConnectFour(lineOfTokens);
             }
         }
         
         // Check for win diagonally
-        for (int i = 0; i < width - 3; i++) {
-            for (int j = 3; j < height; j++) {
-                string fourTokens;
+        // First half of board - start search at each row
+        for (int i = 3; i < height; i++) {
+            
+            string lineOfTokens;
+            
+            for (int j = 0; j <= i; j++) {
                 
-                for (int k = 0; k < 4; k++) {
-                    SlotState slot = board[i + k][j - k];
-//                    cout << "[" << i + k << "] [" << j - k << "]";
-                    
-                    if (slot == PLAYER_1)
-                        fourTokens.append("+");
-                    else if (slot == PLAYER_2)
-                        fourTokens.append("x");
+//                cout << "[" << i - j << "][" << j << "]" << endl;
+                SlotState slot = board[i - j][j];
+                AppendTokenToString(slot, lineOfTokens);
+            }
+            VerifyConnectFour(lineOfTokens);
+        }
+        
+        // Second half of board - start search at each column
+        for (int i = 0; i < height; i++) {
+            
+            string lineOfTokens;
+            
+            for (int j = 1; j < width - 3; j++) {
+                
+                if (j + i == width) {
+                    break;
                 }
                 
-                VerifyConnectFour(fourTokens);
+//                cout << "[" << height - 1 - i << "][" << j + i << "]" << endl;
+                SlotState slot = board[height - 1 - i][j + i];
+                AppendTokenToString(slot, lineOfTokens);
             }
+            VerifyConnectFour(lineOfTokens);
         }
     }
     
-    void VerifyConnectFour(const string tokens) {
+    void VerifyConnectFour(const string &tokens) {
         // Win keys for players
         const string verifyPlayer1 = "++++";
         const string verifyPlayer2 = "xxxx";
         
-        if (tokens == verifyPlayer1) {
+        if (tokens.find(verifyPlayer1) != string::npos) {
             cout << "Player 1 wins!\n";
             Quit();
-        } else if (tokens == verifyPlayer2) {
+            
+        } else if (tokens.find(verifyPlayer2) != string::npos) {
             cout << "Player 2 wins!\n";
             Quit();
         }
     }
+    
+    void AppendTokenToString(const SlotState token, string &lineOfTokens) {
+        if (token == PLAYER_1)
+            lineOfTokens.append("+");
+        
+        else if (token == PLAYER_2)
+            lineOfTokens.append("x");
+    }
 };
 
 int main() {
-    cout << "Welcome to Connect Four!" << endl;
     Game *Game = new ConnectFour();
+    cout << "Welcome to Connect Four!" << endl;
+
     Game->Play();
-    delete Game;
     
+    delete Game;
     return 0;
 }
