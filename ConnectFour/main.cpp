@@ -86,10 +86,9 @@ private:
                 
                 switch (state)
                 {
-                    case    BLANK:      cout << "_ ";   break;
                     case    PLAYER_1:   cout << "+ ";   break;
                     case    PLAYER_2:   cout << "x ";   break;
-                    default:            cout << "E";    break;
+                    default:            cout << "_ ";    break;
                 }
             }
             cout << endl;
