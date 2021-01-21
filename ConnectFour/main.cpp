@@ -174,6 +174,25 @@ private:
                 VerifyConnectFour(fourTokens);
             }
         }
+        
+        // Check for win diagonally
+        for (int i = 0; i < width - 3; i++) {
+            for (int j = 3; j < height; j++) {
+                string fourTokens;
+                
+                for (int k = 0; k < 4; k++) {
+                    SlotState slot = board[i + k][j - k];
+//                    cout << "[" << i + k << "] [" << j - k << "]";
+                    
+                    if (slot == PLAYER_1)
+                        fourTokens.append("+");
+                    else if (slot == PLAYER_2)
+                        fourTokens.append("x");
+                }
+                
+                VerifyConnectFour(fourTokens);
+            }
+        }
     }
     
     void VerifyConnectFour(const string tokens) {
