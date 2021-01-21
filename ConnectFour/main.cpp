@@ -8,12 +8,6 @@
 #include <iostream>
 using namespace std;
 
-enum SlotState {
-    BLANK,
-    PLAYER_1,
-    PLAYER_2
-};
-
 class Game {
 public:
     Game() {};
@@ -22,6 +16,12 @@ public:
 };
 
 class ConnectFour : public Game {
+    enum SlotState {
+        BLANK,
+        PLAYER_1,
+        PLAYER_2
+    };
+    
     int height, width;
     SlotState **board;
     SlotState current_player;
@@ -32,6 +32,7 @@ public:
         cout << "Enter board height then width: " << endl;
         cin >> height;
         cin >> width;
+        cout << endl;
         
         // Allocate memory
         board = new SlotState*[height];
@@ -55,6 +56,8 @@ public:
     }
     
     void Play() override {
+        cout << "0 Quit | 1-" << height << " Drop Token" << endl;
+
         while (user_in) {
             Draw();
             Input();
@@ -62,11 +65,12 @@ public:
     }
     
 private:
+    void Quit() {
+        user_in = 0;
+    }
+    
     void Draw() {
         // Print column header
-        cout << "| 0 Quit | 1-" << height << " Drop Token |" << endl;
-        cout << "Player " << current_player << "'s turn!" << endl << endl;
-        
         for (int j = 0; j < width; j++)
             cout << j + 1 << " ";
         cout << endl;
@@ -77,18 +81,24 @@ private:
                 SlotState state = board[i][j];
                 switch (state)
                 {
-                case BLANK:     cout << "_ ";   break;
-                case PLAYER_1:  cout << "+ ";   break;
-                case PLAYER_2:  cout << "x ";   break;
-                default:        cout << "E";    break;
+                    case    BLANK:      cout << "_ ";   break;
+                    case    PLAYER_1:   cout << "+ ";   break;
+                    case    PLAYER_2:   cout << "x ";   break;
+                    default:            cout << "E";    break;
                 }
             }
             cout << endl;
         }
         cout << endl;
+        
+        DetectWin();
     }
 
     void Input() {
+        if (user_in == 0)
+            return;
+        
+        cout << "Player " << current_player << "'s turn!" << endl;
         cin >> user_in;
         cout << endl;
         
@@ -102,7 +112,7 @@ private:
     void PlaceToken(int column) {
         column--; // Offset input by 1 to align with desired column
         
-        // Find first BLANK slot in column to place current player token
+        // Find first BLANK slot in column to place current player's token
         for (int i = height - 1; i >= 0; i--) {
             SlotState current_state = board[i][column];
             if (current_state == BLANK) {
@@ -123,6 +133,79 @@ private:
             current_player = PLAYER_2;
         } else {
             current_player = PLAYER_1;
+        }
+    }
+    
+    void DetectWin() {
+        // Check for win horizontally
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width - 3; j++) {
+                // Build string from snapshot of 4 consecutive tokens
+                string fourTokens;
+                
+                for (int k = 0; k < 4; k++) {
+                    SlotState slot = board[i][j + k];
+                    
+                    if (slot == PLAYER_1)
+                        fourTokens.append("+");
+                    else if (slot == PLAYER_2)
+                        fourTokens.append("x");
+                }
+                
+                VerifyConnectFour(fourTokens); // Compare snapshot with verification strings
+            }
+        }
+        
+        // Check for win vertically
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height - 3; j++) {
+                // Build string from snapshot of 4 consecutive tokens
+                string fourTokens;
+
+                for (int k = 0; k < 4; k++) {
+                    SlotState slot = board[j + k][i];
+
+                    if (slot == PLAYER_1)
+                        fourTokens.append("+");
+                    else if (slot == PLAYER_2)
+                        fourTokens.append("x");
+                }
+
+                VerifyConnectFour(fourTokens);
+            }
+        }
+        
+        // Check for win diagonally
+        for (int i = 0; i < width - 3; i++) {
+            for (int j = 3; j < height; j++) {
+                string fourTokens;
+                
+                for (int k = 0; k < 4; k++) {
+                    SlotState slot = board[i + k][j - k];
+//                    cout << "[" << i + k << "] [" << j - k << "]";
+                    
+                    if (slot == PLAYER_1)
+                        fourTokens.append("+");
+                    else if (slot == PLAYER_2)
+                        fourTokens.append("x");
+                }
+                
+                VerifyConnectFour(fourTokens);
+            }
+        }
+    }
+    
+    void VerifyConnectFour(const string tokens) {
+        // Win keys for players
+        const string verifyPlayer1 = "++++";
+        const string verifyPlayer2 = "xxxx";
+        
+        if (tokens == verifyPlayer1) {
+            cout << "Player 1 wins!\n";
+            Quit();
+        } else if (tokens == verifyPlayer2) {
+            cout << "Player 2 wins!\n";
+            Quit();
         }
     }
 };
