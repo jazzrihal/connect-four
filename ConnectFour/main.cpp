@@ -88,7 +88,7 @@ private:
                 {
                     case    PLAYER_1:   cout << "+ ";   break;
                     case    PLAYER_2:   cout << "x ";   break;
-                    default:            cout << "_ ";    break;
+                    default:            cout << "_ ";   break;
                 }
             }
             cout << endl;
@@ -150,35 +150,27 @@ private:
         // Check for win horizontally
         for (int i = 0; i < height; i++) {
             
-            for (int j = 0; j < width - 3; j++) {
+            string rowOfTokens;
+
+            for (int j = 0; j < width; j++) {
                 
-                // Build string from snapshot of 4 consecutive tokens
-                string lineOfTokens;
-                
-                for (int k = 0; k < 4; k++) {
-                    
-                    SlotState slot = board[i][j + k];
-                    AppendTokenToString(slot, lineOfTokens);
-                }
-                VerifyConnectFour(lineOfTokens); // Compare snapshot with verification strings
+                SlotState slot = board[i][j];
+                AppendTokenToString(slot, rowOfTokens);
             }
+            VerifyConnectFour(rowOfTokens);
         }
         
         // Check for win vertically
-        for (int i = 0; i < width; i++) {
+        for (int j = 0; j < width; j++) {
             
-            for (int j = 0; j < height - 3; j++) {
+            string columnOfTokens;
+            
+            for (int i = 0; i < height; i++) {
                 
-                // Build string from snapshot of 4 consecutive tokens
-                string lineOfTokens;
-
-                for (int k = 0; k < 4; k++) {
-                    
-                    SlotState slot = board[j + k][i];
-                    AppendTokenToString(slot, lineOfTokens);
-                }
-                VerifyConnectFour(lineOfTokens);
+                SlotState slot = board[i][j];
+                AppendTokenToString(slot, columnOfTokens);
             }
+            VerifyConnectFour(columnOfTokens);
         }
         
         // Check for win diagonally
@@ -236,6 +228,9 @@ private:
         
         else if (token == PLAYER_2)
             lineOfTokens.append("x");
+        
+        else
+            lineOfTokens.append("_");
     }
 };
 
