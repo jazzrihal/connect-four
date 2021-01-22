@@ -174,7 +174,7 @@ private:
         }
         
         // Check for win diagonally
-        // First half of board - start search at each row
+        // Start at first slot of each row
         for (int i = 3; i < height; i++) {
             
             string lineOfTokens;
@@ -188,16 +188,12 @@ private:
             VerifyConnectFour(lineOfTokens);
         }
         
-        // Second half of board - start search at each column
-        for (int i = 0; i < height; i++) {
+        // Start at last slot of each column
+        for (int j = 1; j < width - 3; j++) {
             
             string lineOfTokens;
             
-            for (int j = 1; j < width - 3; j++) {
-                
-                if (j + i == width) {
-                    break;
-                }
+            for (int i = 0; i < width - j; i++) {
                 
 //                cout << "[" << height - 1 - i << "][" << j + i << "]" << endl;
                 SlotState slot = board[height - 1 - i][j + i];
