@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A25DDBD25BAFA5C000DAC06 /* ConnectFour.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A25DDBB25BAFA5C000DAC06 /* ConnectFour.cpp */; };
 		2A597E022556EE1700013F7E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A597E012556EE1700013F7E /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +24,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2A25DDBB25BAFA5C000DAC06 /* ConnectFour.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ConnectFour.cpp; sourceTree = "<group>"; };
+		2A25DDBC25BAFA5C000DAC06 /* ConnectFour.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ConnectFour.hpp; sourceTree = "<group>"; };
+		2A25DDC025BAFB2F000DAC06 /* Game.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Game.hpp; sourceTree = "<group>"; };
 		2A597DFE2556EE1700013F7E /* ConnectFour */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ConnectFour; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A597E012556EE1700013F7E /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -58,6 +62,9 @@
 			isa = PBXGroup;
 			children = (
 				2A597E012556EE1700013F7E /* main.cpp */,
+				2A25DDBB25BAFA5C000DAC06 /* ConnectFour.cpp */,
+				2A25DDBC25BAFA5C000DAC06 /* ConnectFour.hpp */,
+				2A25DDC025BAFB2F000DAC06 /* Game.hpp */,
 			);
 			path = ConnectFour;
 			sourceTree = "<group>";
@@ -118,6 +125,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A25DDBD25BAFA5C000DAC06 /* ConnectFour.cpp in Sources */,
 				2A597E022556EE1700013F7E /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

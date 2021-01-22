@@ -1,0 +1,46 @@
+//
+//  ConnectFour.hpp
+//  ConnectFour
+//
+//  Created by Jazz Rihal on 22/01/2021.
+//
+
+#ifndef ConnectFour_hpp
+#define ConnectFour_hpp
+
+#include "Game.hpp"
+#include <iostream>
+
+class ConnectFour : public Game {
+    enum SlotState {
+        BLANK,
+        PLAYER_1,
+        PLAYER_2
+    };
+    
+    int height, width;
+    SlotState **board;
+    SlotState current_player;
+    int user_in;
+    
+public:
+    ConnectFour();
+    ~ConnectFour();
+    void Greet();
+    
+    void Play() override;
+    void Quit() override;
+    void Reset() override;
+    
+private:
+    void Draw();
+    void Input();
+    
+    void PlaceToken(int column);
+    void SwitchPlayer();
+    void DetectWin();
+    void VerifyConnectFour(const std::string &tokens);
+    void AppendTokenToString(const SlotState token, std::string &lineOfTokens);
+
+};
+#endif /* ConnectFour_hpp */
