@@ -32,6 +32,7 @@ class ConnectFour : public Game {
     
 public:
     ConnectFour() {
+        cout << "Welcome to " << GetName() << "!" << endl;
         cout << "Enter board height then width: " << endl;
         cin >> height;
         cin >> width;
@@ -266,7 +267,6 @@ private:
 
 int main() {
     Game *game = new ConnectFour();
-    cout << "Welcome to " << game->GetName() << "!" << endl;
 
     game->Play();
     
