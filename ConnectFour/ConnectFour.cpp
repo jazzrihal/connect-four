@@ -38,6 +38,7 @@ void ConnectFour::Greet() {
     cout << "Welcome to Connect Four!" << endl;
 }
 
+// Main game loop
 void ConnectFour::Play() {
     cout << "0 QUIT | 1-" << height << " DROP TOKEN" << endl << endl;
 
@@ -51,12 +52,12 @@ void ConnectFour::Quit() {
     user_in = 0;
 }
 
+// Blank all slots and prepare for first player
 void ConnectFour::Reset() {
     for (int i = 0; i < height; i++)
         for (int j = 0; j < width; j++)
             board[i][j] = BLANK;
     
-    // Prepare for first player
     current_player = PLAYER_1;
     user_in = 1;
 }
@@ -89,6 +90,7 @@ void ConnectFour::Draw() {
     DetectWin();
 }
 
+// Prompt current player to place token in column
 void ConnectFour::Input() {
     if (user_in == 0)
         return;
@@ -105,10 +107,10 @@ void ConnectFour::Input() {
     }
 }
 
+// Find first blank slot in chosen column to place token
 void ConnectFour::PlaceToken(int column) {
-    column--; // Offset input by 1 to align with desired column
+    --column;
     
-    // Find first BLANK slot in column to place current player's token
     for (int i = height - 1; i >= 0; i--) {
         
         SlotState slot = board[i][column];
@@ -137,8 +139,9 @@ void ConnectFour::SwitchPlayer() {
     }
 }
 
+// Detect connect-four in any direction
 void ConnectFour::DetectWin() {
-    // Check for win horizontally
+    // Horizontal algorithm
     for (int i = 0; i < height; i++) {
         
         string rowOfTokens;
@@ -151,7 +154,7 @@ void ConnectFour::DetectWin() {
         VerifyConnectFour(rowOfTokens);
     }
     
-    // Check for win vertically
+    // Vertical algorithm
     for (int j = 0; j < width; j++) {
         
         string columnOfTokens;
@@ -164,7 +167,7 @@ void ConnectFour::DetectWin() {
         VerifyConnectFour(columnOfTokens);
     }
     
-    // Check for win diagonally upwards (left to right)
+    // Upwards diagonal algorithm
     // Start at first slot of each row
     for (int i = 3; i < height; i++) {
         
@@ -193,7 +196,7 @@ void ConnectFour::DetectWin() {
         VerifyConnectFour(lineOfTokens);
     }
     
-    // Check for win diagonally downwards (left to right)
+    // Diagonal downards algorithm
     // Start at first slot of each row
     for (int i = 0; i < height - 3; i++) {
         
@@ -221,6 +224,19 @@ void ConnectFour::DetectWin() {
     }
 }
 
+// Convert token to string
+void ConnectFour::AppendTokenToString(const SlotState token, string &lineOfTokens) {
+    if (token == PLAYER_1)
+        lineOfTokens.append("+");
+    
+    else if (token == PLAYER_2)
+        lineOfTokens.append("x");
+    
+    else
+        lineOfTokens.append("_");
+}
+
+// Find Connect Four in given line of tokens
 void ConnectFour::VerifyConnectFour(const string &tokens) {
     // Win keys for players
     const string verifyPlayer1 = "++++";
@@ -234,15 +250,4 @@ void ConnectFour::VerifyConnectFour(const string &tokens) {
         cout << "Player 2 wins!\n";
         Quit();
     }
-}
-
-void ConnectFour::AppendTokenToString(const SlotState token, string &lineOfTokens) {
-    if (token == PLAYER_1)
-        lineOfTokens.append("+");
-    
-    else if (token == PLAYER_2)
-        lineOfTokens.append("x");
-    
-    else
-        lineOfTokens.append("_");
 }

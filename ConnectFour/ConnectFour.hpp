@@ -26,18 +26,20 @@ class ConnectFour : public Game {
 public:
     ConnectFour();
     ~ConnectFour();
-    void Greet();
     
+    void Greet();
     void Play() override;
     void Quit() override;
     void Reset() override;
     
 private:
+    // Game mechanics
     void Draw();
     void Input();
-    
     void PlaceToken(int column);
     void SwitchPlayer();
+    
+    // Win detection
     void DetectWin();
     void VerifyConnectFour(const std::string &tokens);
     void AppendTokenToString(const SlotState token, std::string &lineOfTokens);
