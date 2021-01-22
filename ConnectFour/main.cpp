@@ -12,16 +12,19 @@ class Game {
 public:
     Game() {};
     virtual ~Game() {};
+    virtual string GetName() = 0;
     virtual void Play() = 0;
 };
 
 class ConnectFour : public Game {
+    const string name = "Connect Four";
+
     enum SlotState {
         BLANK,
         PLAYER_1,
         PLAYER_2
     };
-    
+        
     int height, width;
     SlotState **board;
     SlotState current_player;
@@ -54,6 +57,10 @@ public:
             delete [] board[i];
         
         delete [] board;
+    }
+    
+    string GetName() override {
+        return name;
     }
     
     void Play() override {
@@ -258,11 +265,11 @@ private:
 };
 
 int main() {
-    Game *Game = new ConnectFour();
-    cout << "Welcome to Connect Four!" << endl;
+    Game *game = new ConnectFour();
+    cout << "Welcome to " << game->GetName() << "!" << endl;
 
-    Game->Play();
+    game->Play();
     
-    delete Game;
+    delete game;
     return 0;
 }
