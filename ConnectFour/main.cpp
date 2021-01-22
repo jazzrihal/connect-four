@@ -173,7 +173,7 @@ private:
             VerifyConnectFour(columnOfTokens);
         }
         
-        // Check for win diagonally
+        // Check for win diagonally upwards (left to right)
         // Start at first slot of each row
         for (int i = 3; i < height; i++) {
             
@@ -197,6 +197,33 @@ private:
                 
 //                cout << "[" << height - 1 - i << "][" << j + i << "]" << endl;
                 SlotState slot = board[height - 1 - i][j + i];
+                AppendTokenToString(slot, lineOfTokens);
+            }
+            VerifyConnectFour(lineOfTokens);
+        }
+        
+        // Check for win diagonally downwards (left to right)
+        // Start at first slot of each row
+        for (int i = 0; i < height - 3; i++) {
+            
+            string lineOfTokens;
+            
+            for (int j = 0; j < width - i; j++) {
+                
+                SlotState slot = board[i + j][j];
+                AppendTokenToString(slot, lineOfTokens);
+            }
+            VerifyConnectFour(lineOfTokens);
+        }
+        
+        // Start at last slot of each column
+        for (int j = 1; j < width - 3; j++) {
+            
+            string lineOfTokens;
+            
+            for (int i = 0; i < height - j; i++) {
+                
+                SlotState slot = board[i][j + i];
                 AppendTokenToString(slot, lineOfTokens);
             }
             VerifyConnectFour(lineOfTokens);
