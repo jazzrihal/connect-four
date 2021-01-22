@@ -12,8 +12,9 @@ class Game {
 public:
     Game() {};
     virtual ~Game() {};
-    virtual string GetName() = 0;
     virtual void Play() = 0;
+    virtual void Quit() = 0;
+    virtual void Reset() = 0;
 };
 
 class ConnectFour : public Game {
@@ -32,7 +33,9 @@ class ConnectFour : public Game {
     
 public:
     ConnectFour() {
-        cout << "Welcome to " << GetName() << "!" << endl;
+        Greet();
+        
+        // Define board size
         cout << "Enter board height then width: " << endl;
         cin >> height;
         cin >> width;
@@ -43,13 +46,7 @@ public:
         for (int i = 0; i < height; i++)
             board[i] = new SlotState[width];
         
-        for (int i = 0; i < height; i++)
-            for (int j = 0; j < width; j++)
-                board[i][j] = BLANK;
-        
-        // Prepare for first player
-        current_player = PLAYER_1;
-        user_in = 1;
+        Reset();
     }
     
     ~ConnectFour() {
@@ -60,12 +57,12 @@ public:
         delete [] board;
     }
     
-    string GetName() override {
-        return name;
+    void Greet() {
+        cout << "Welcome to Connect Four!" << endl;
     }
     
     void Play() override {
-        cout << "0 Quit | 1-" << height << " Drop Token" << endl;
+        cout << "0 QUIT | 1-" << height << " DROP TOKEN" << endl << endl;
 
         while (user_in) {
             Draw();
@@ -74,8 +71,18 @@ public:
     }
     
 private:
-    void Quit() {
+    void Quit() override {
         user_in = 0;
+    }
+    
+    void Reset() override {
+        for (int i = 0; i < height; i++)
+            for (int j = 0; j < width; j++)
+                board[i][j] = BLANK;
+        
+        // Prepare for first player
+        current_player = PLAYER_1;
+        user_in = 1;
     }
     
     void Draw() {
@@ -90,9 +97,9 @@ private:
             
             for (int j = 0; j < width; j++) {
                 
-                SlotState state = board[i][j];
+                SlotState slot = board[i][j];
                 
-                switch (state)
+                switch (slot)
                 {
                     case    PLAYER_1:   cout << "+ ";   break;
                     case    PLAYER_2:   cout << "x ";   break;
@@ -128,9 +135,9 @@ private:
         // Find first BLANK slot in column to place current player's token
         for (int i = height - 1; i >= 0; i--) {
             
-            SlotState current_state = board[i][column];
+            SlotState slot = board[i][column];
             
-            if (current_state == BLANK) {
+            if (slot == BLANK) {
                 
                 if (current_player == PLAYER_1) {
                     board[i][column] = PLAYER_1;
