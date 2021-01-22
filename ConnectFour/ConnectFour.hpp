@@ -41,8 +41,8 @@ private:
     
     // Win detection
     void DetectWin();
-    void VerifyConnectFour(const std::string &tokens);
     void AppendTokenToString(const SlotState token, std::string &lineOfTokens);
+    void VerifyConnectFour(const std::string &tokens);
 
 };
 #endif /* ConnectFour_hpp */

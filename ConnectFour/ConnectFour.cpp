@@ -168,7 +168,7 @@ void ConnectFour::DetectWin() {
     }
     
     // Upwards diagonal algorithm
-    // Start at first slot of each row
+    // 1 - Start at first slot of each row
     for (int i = 3; i < height; i++) {
         
         string lineOfTokens;
@@ -182,7 +182,7 @@ void ConnectFour::DetectWin() {
         VerifyConnectFour(lineOfTokens);
     }
     
-    // Start at last slot of each column
+    // 2 - Start at last slot of each column
     for (int j = 1; j < width - 3; j++) {
         
         string lineOfTokens;
@@ -196,8 +196,8 @@ void ConnectFour::DetectWin() {
         VerifyConnectFour(lineOfTokens);
     }
     
-    // Diagonal downards algorithm
-    // Start at first slot of each row
+    // Downwards diagonal algorithm
+    // 1 - Start at first slot of each row
     for (int i = 0; i < height - 3; i++) {
         
         string lineOfTokens;
@@ -210,7 +210,7 @@ void ConnectFour::DetectWin() {
         VerifyConnectFour(lineOfTokens);
     }
     
-    // Start at last slot of each column
+    // 2 - Start at last slot of each column
     for (int j = 1; j < width - 3; j++) {
         
         string lineOfTokens;
@@ -224,7 +224,7 @@ void ConnectFour::DetectWin() {
     }
 }
 
-// Convert token to string
+// Convert token and append to given string
 void ConnectFour::AppendTokenToString(const SlotState token, string &lineOfTokens) {
     if (token == PLAYER_1)
         lineOfTokens.append("+");
