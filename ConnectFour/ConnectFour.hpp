@@ -27,7 +27,6 @@ public:
     ConnectFour();
     ~ConnectFour();
     
-    void Greet();
     void Play() override;
     void Quit() override;
     void Reset() override;

@@ -10,8 +10,8 @@
 using namespace std;
 
 ConnectFour::ConnectFour() {
-    Greet();
-    
+    cout << "Welcome to Connect Four!" << endl;
+
     // Define board size
     cout << "Enter board size: " << endl;
     cin >> height;
@@ -32,10 +32,6 @@ ConnectFour::~ConnectFour() {
         delete [] board[i];
     
     delete [] board;
-}
-
-void ConnectFour::Greet() {
-    cout << "Welcome to Connect Four!" << endl;
 }
 
 // Main game loop
