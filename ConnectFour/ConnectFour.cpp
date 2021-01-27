@@ -13,9 +13,9 @@ ConnectFour::ConnectFour() {
     Greet();
     
     // Define board size
-    cout << "Enter board height then width: " << endl;
+    cout << "Enter board size: " << endl;
     cin >> height;
-    cin >> width;
+    width = height;
     cout << endl;
     
     // Allocate memory
@@ -210,7 +210,7 @@ void ConnectFour::DetectWin() {
         VerifyConnectFour(lineOfTokens);
     }
     
-    // 2 - Start at last slot of each column
+    // 2 - Start at first slot of each column
     for (int j = 1; j < width - 3; j++) {
         
         string lineOfTokens;
