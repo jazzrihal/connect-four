@@ -12,36 +12,31 @@
 #include <iostream>
 
 class ConnectFour : public Game {
-    enum SlotState {
-        BLANK,
-        PLAYER_1,
-        PLAYER_2
-    };
-    
-    int height, width;
-    SlotState **board;
-    SlotState current_player;
-    int user_in;
-    
-public:
-    ConnectFour();
-    ~ConnectFour();
-    
-    void Play() override;
-    void Quit() override;
-    void Reset() override;
-    
-private:
-    // Game mechanics
-    void Draw();
-    void Input();
-    void PlaceToken(int column);
-    void SwitchPlayer();
-    
-    // Win detection
-    void DetectWin();
-    void AppendTokenToString(const SlotState token, std::string &lineOfTokens);
-    void VerifyConnectFour(const std::string &tokens);
+  enum SlotState { BLANK, PLAYER_1, PLAYER_2 };
 
+  int height, width;
+  SlotState **board;
+  SlotState current_player;
+  int user_in;
+
+public:
+  ConnectFour();
+  ~ConnectFour();
+
+  void Play() override;
+  void Quit() override;
+  void Reset() override;
+
+private:
+  // Game mechanics
+  void Draw();
+  void Input();
+  void PlaceToken(int column);
+  void SwitchPlayer();
+
+  // Win detection
+  void DetectWin();
+  void AppendTokenToString(const SlotState token, std::string &lineOfTokens);
+  void VerifyConnectFour(const std::string &tokens);
 };
 #endif /* ConnectFour_hpp */

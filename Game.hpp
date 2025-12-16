@@ -10,11 +10,11 @@
 
 class Game {
 public:
-    Game() {};
-    virtual ~Game() {};
-    virtual void Play() = 0;
-    virtual void Quit() = 0;
-    virtual void Reset() = 0;
+  Game() {};
+  virtual ~Game() {};
+  virtual void Play() = 0;
+  virtual void Quit() = 0;
+  virtual void Reset() = 0;
 };
 
 #endif /* Game_hpp */
