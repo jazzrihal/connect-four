@@ -9,6 +9,10 @@
 
 using namespace std;
 
+namespace {
+const char CLEAR_SCREEN[] = "\033[2J\033[H";
+}
+
 ConnectFour::ConnectFour() {
   cout << "Welcome to Connect Four!" << endl;
 
@@ -16,7 +20,7 @@ ConnectFour::ConnectFour() {
   cout << "Enter board size: " << endl;
   cin >> height;
   width = height;
-  cout << endl;
+  cout << CLEAR_SCREEN;
 
   // Allocate memory
   board = new SlotState *[height];
@@ -36,11 +40,20 @@ ConnectFour::~ConnectFour() {
 
 // Main game loop
 void ConnectFour::Play() {
-  cout << "0 QUIT | 1-" << height << " DROP TOKEN" << endl << endl;
+  cout << CLEAR_SCREEN;
 
   while (user_in) {
     Draw();
     Input();
+  }
+
+  if (winner == 1)
+    cout << endl << "Player 1 wins!" << endl;
+  else if (winner == 2)
+    cout << endl << "Player 2 wins!" << endl;
+  else {
+    cout << CLEAR_SCREEN;
+    cout << "Goodbye." << endl;
   }
 }
 
@@ -54,9 +67,12 @@ void ConnectFour::Reset() {
 
   current_player = PLAYER_1;
   user_in = 1;
+  winner = 0;
 }
 
 void ConnectFour::Draw() {
+  cout << CLEAR_SCREEN;
+
   // Print column header
   for (int j = 0; j < width; j++)
     cout << j + 1 << " ";
@@ -82,7 +98,14 @@ void ConnectFour::Draw() {
     }
     cout << endl;
   }
-  cout << endl;
+
+  if (!status_message.empty()) {
+    cout << status_message << endl;
+    status_message.clear();
+  }
+
+  cout << "Player " << current_player << "'s turn. Column (1-" << width
+       << ") or 0 to quit: " << flush;
 
   DetectWin();
 }
@@ -92,16 +115,17 @@ void ConnectFour::Input() {
   if (user_in == 0)
     return;
 
-  cout << "Player " << current_player << "'s turn!" << endl;
   cin >> user_in;
-  cout << endl;
 
-  if (user_in >= 0 && user_in <= width) {
-    PlaceToken(user_in);
-
-  } else {
-    cout << "Enter number between 1 and " << width << endl;
+  if (user_in == 0) {
+    Quit();
+    return;
   }
+  if (user_in >= 1 && user_in <= width) {
+    PlaceToken(user_in);
+    return;
+  }
+  status_message = "Invalid. Enter 1-" + to_string(width) + " or 0.";
 }
 
 // Find first blank slot in chosen column to place token
@@ -224,11 +248,10 @@ void ConnectFour::VerifyConnectFour(const string &tokens) {
   const string verifyPlayer2 = "xxxx";
 
   if (tokens.find(verifyPlayer1) != string::npos) {
-    cout << "Player 1 wins!\n";
+    winner = 1;
     Quit();
-
   } else if (tokens.find(verifyPlayer2) != string::npos) {
-    cout << "Player 2 wins!\n";
+    winner = 2;
     Quit();
   }
 }

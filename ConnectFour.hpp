@@ -10,6 +10,7 @@
 
 #include "Game.hpp"
 #include <iostream>
+#include <string>
 
 class ConnectFour : public Game {
   enum SlotState { BLANK, PLAYER_1, PLAYER_2 };
@@ -18,6 +19,8 @@ class ConnectFour : public Game {
   SlotState **board;
   SlotState current_player;
   int user_in;
+  std::string status_message;
+  int winner;
 
 public:
   ConnectFour();
