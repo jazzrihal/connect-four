@@ -5,7 +5,7 @@
 //  Created by Jazz Rihal on 22/01/2021.
 //
 
-#include "ConnectFour.hpp"
+#include "ConnectFour.h"
 
 using namespace std;
 

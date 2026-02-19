@@ -5,10 +5,10 @@
 //  Created by Jazz Rihal on 22/01/2021.
 //
 
-#ifndef ConnectFour_hpp
-#define ConnectFour_hpp
+#ifndef ConnectFour_h
+#define ConnectFour_h
 
-#include "Game.hpp"
+#include "Game.h"
 #include <iostream>
 #include <string>
 
@@ -42,4 +42,5 @@ private:
   void AppendTokenToString(const SlotState token, std::string &lineOfTokens);
   void VerifyConnectFour(const std::string &tokens);
 };
-#endif /* ConnectFour_hpp */
+
+#endif /* ConnectFour_h */

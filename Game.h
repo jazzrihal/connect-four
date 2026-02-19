@@ -5,8 +5,8 @@
 //  Created by Jazz Rihal on 22/01/2021.
 //
 
-#ifndef Game_hpp
-#define Game_hpp
+#ifndef Game_h
+#define Game_h
 
 class Game {
 public:
@@ -17,4 +17,4 @@ public:
   virtual void Reset() = 0;
 };
 
-#endif /* Game_hpp */
+#endif /* Game_h */
